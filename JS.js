@@ -113,7 +113,7 @@ function loadList(){
   if(localStorage.getItem("toDos") != null) {
     var toDos = JSON.parse(localStorage.getItem("toDos"));
     console.log(toDos);
-    for(var i = 0; i <= toDos.length; i++){
+    for(var i = 0; i < toDos.length; i++){
       var toDo = toDos[i];
       newItem(toDo);
     }
