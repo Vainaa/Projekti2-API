@@ -2,16 +2,18 @@
 
 // Creating header
 function createHeader(){
+
   var header = document.createElement("H2");
   var text = document.createTextNode("My todo list");
   header.appendChild(text);
   
-  var element = document.getElementById("myDIV");
+  var element = document.getElementById("div_1");
   element.appendChild(header);
   
 }
 //Create input field and Add button
 function createInput(){
+
   var input = document.createElement("INPUT");
   input.type="text";
   input.className="input";
@@ -19,7 +21,7 @@ function createInput(){
   input.setAttribute('placeholder','Title...');
   
   
-  var element = document.getElementById("myDIV");
+  var element = document.getElementById("div_1");
   element.appendChild(input);
   var btn = document.createElement("SPAN");
   var text = document.createTextNode("Add");
@@ -29,14 +31,25 @@ function createInput(){
   btn.appendChild(text);
   
   
-  var element = document.getElementById("myDIV");
+  var element = document.getElementById("div_1");
   element.appendChild(btn); 
 }
+
+function createUl(){
+  
+  var list = document.createElement("UL");
+  list.setAttribute('id','myUL');
+
+  var element = document.getElementById("div_2");
+  element.appendChild(list); 
+  
+}
+
 
 //placing elements on the page
 createHeader();
 createInput();
-
+createUl();
 
 // Create a "close" button and append it to each list item
 var myNodelist = document.getElementsByTagName("LI");
