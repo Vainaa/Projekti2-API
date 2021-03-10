@@ -40,9 +40,20 @@ function createElements(){
   var element = document.getElementById("div_2");
   element.appendChild(list); 
 
+  var removeBtn = document.createElement("SPAN");
+  var text = document.createTextNode("remove");
+  removeBtn.className="removeBtn";
+  removeBtn.setAttribute('onClick','clearFromList()');
+  removeBtn.setAttribute('placeholder','Title...');
+  removeBtn.appendChild(text);
+  var element = document.getElementById("div_1");
+  element.appendChild(removeBtn);
+
 }
 
-
+//placing elements on the page
+createElements();
+loadList();
 
 
 
@@ -50,7 +61,7 @@ function createElements(){
 var myNodelist = document.getElementsByTagName("LI");
 var i;
 for (i = 0; i < myNodelist.length; i++) {
-  var span = document.createElement("SPAN");
+  var span = document.createElement("BUTTON");
   var txt = document.createTextNode("\u00D7");
   span.className = "close";
   span.appendChild(txt);
@@ -79,21 +90,30 @@ list.addEventListener('click', function(ev) {
 function storeList(){
 
   var toDos = [];
-  let list = document.getElementById('myUL').getElementsByTagName('li');
-  var arrayList = Array.from(list);
-  for (var i = 0; i < arrayList.length; i++ ){
-      toDos.push(arrayList[i]);
+  const list = Array.from(document.querySelectorAll('#myUL>li'));
+  for (var i = 0; i < list.length; i++ ){
+      toDos.push(list[i].textContent);
   }
   localStorage.setItem("toDos",JSON.stringify(toDos));
+  console.log(toDos);
 }
 
+function clearFromList(){
+  var toDos = [];
+  const list = Array.from(document.querySelectorAll('#myUL>li'));
+  
+  for (var i = 0; i < list.length; i++ ){
+      toDos.push(list[i].textContent);
+  }
+  localStorage.removeItem("toDos",JSON.stringify(toDos));
+}
 
 //Loading list from localStorage
 function loadList(){
-  if(localStorage.getItem("toDos")!= null) {
+  if(localStorage.getItem("toDos") != null) {
     var toDos = JSON.parse(localStorage.getItem("toDos"));
-
-    for(var i = 0; i < toDos.length; i++){
+    console.log(toDos);
+    for(var i = 0; i <= toDos.length; i++){
       var toDo = toDos[i];
       newItem(toDo);
     }
@@ -104,8 +124,11 @@ function loadList(){
 //Creating list items
 function newItem (item){
   var li = document.createElement("li");
-  li.appendChild(item);
-  document.getElementById("myUL").appendChild(li);
+  li.appendChild(document.createTextNode(item));
+  console.log(document.createTextNode(item));
+  if(document.createTextNode(item) != null ){
+    document.getElementById("myUL").appendChild(li);
+  } 
 }
 
 
@@ -120,12 +143,12 @@ function newElement() {
   if (inputValue === '') {
     alert("You must write something!");
   } else {
-    document.getElementById("myUL").appendChild(li);
+    newItem(inputValue)
     storeList();
   }
   document.getElementById("myInput").value = "";
 
-  var span = document.createElement("SPAN");
+  var span = document.createElement("BUTTON");
   var txt = document.createTextNode("\u00D7");
   span.className = "close";
   span.appendChild(txt);
@@ -139,5 +162,3 @@ function newElement() {
   }
 }
 
-//placing elements on the page
-createElements();

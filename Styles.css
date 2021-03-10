@@ -65,6 +65,7 @@ ul li.checked::before {
   right: 0;
   top: 0;
   padding: 12px 16px 12px 16px;
+  border-radius:0 25px 25px 0;
 }
 
 .close:hover {
@@ -113,6 +114,19 @@ input {
   cursor: pointer;
   transition: 0.3s;
   border-radius:0 25px 25px 0;
+}
+
+.removeBtn {
+  padding: 10px;
+  width: 25%;
+  background: #d9d9d9;
+  color: #555;
+  float: left;
+  text-align: center;
+  font-size: 16px;
+  cursor: pointer;
+  transition: 0.3s;
+  border-radius:25px 25px 25px 25px;
 }
 
 .addBtn:hover {
