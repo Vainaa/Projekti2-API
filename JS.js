@@ -32,8 +32,12 @@ function createInput(){
   var element = document.getElementById("myDIV");
   element.appendChild(btn); 
 }
+
+//placing elements on the page
 createHeader();
 createInput();
+
+
 // Create a "close" button and append it to each list item
 var myNodelist = document.getElementsByTagName("LI");
 var i;
