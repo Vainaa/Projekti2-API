@@ -1,3 +1,39 @@
+
+
+// Creating header
+function createHeader(){
+  var header = document.createElement("H2");
+  var text = document.createTextNode("My todo list");
+  header.appendChild(text);
+  
+  var element = document.getElementById("myDIV");
+  element.appendChild(header);
+  
+}
+//Create input field and Add button
+function createInput(){
+  var input = document.createElement("INPUT");
+  input.type="text";
+  input.className="input";
+  input.setAttribute('id','myInput');
+  input.setAttribute('placeholder','Title...');
+  
+  
+  var element = document.getElementById("myDIV");
+  element.appendChild(input);
+  var btn = document.createElement("SPAN");
+  var text = document.createTextNode("Add");
+  btn.className="addBtn";
+  btn.setAttribute('onClick','newElement()');
+  btn.setAttribute('placeholder','Title...');
+  btn.appendChild(text);
+  
+  
+  var element = document.getElementById("myDIV");
+  element.appendChild(btn); 
+}
+createHeader();
+createInput();
 // Create a "close" button and append it to each list item
 var myNodelist = document.getElementsByTagName("LI");
 var i;
