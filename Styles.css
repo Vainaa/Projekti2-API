@@ -70,6 +70,7 @@ ul li.checked::before {
 .close:hover {
   background-color: #f44336;
   color: white;
+  border-radius:0 25px 25px 0;
 }
 
 /* Style the header */
