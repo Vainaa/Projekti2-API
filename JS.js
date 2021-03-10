@@ -61,7 +61,7 @@ loadList();
 var myNodelist = document.getElementsByTagName("LI");
 var i;
 for (i = 0; i < myNodelist.length; i++) {
-  var span = document.createElement("BUTTON");
+  var span = document.createElement("SPAN");
   var txt = document.createTextNode("\u00D7");
   span.className = "close";
   span.appendChild(txt);
@@ -70,6 +70,7 @@ for (i = 0; i < myNodelist.length; i++) {
 
 // Click on a close button to hide the current list item
 var close = document.getElementsByClassName("close");
+
 var i;
 for (i = 0; i < close.length; i++) {
   close[i].onclick = function() {
@@ -94,8 +95,10 @@ function storeList(){
   for (var i = 0; i < list.length; i++ ){
       toDos.push(list[i].textContent);
   }
-  localStorage.setItem("toDos",JSON.stringify(toDos));
-  console.log(toDos);
+  const savedText = JSON.stringify(toDos)
+  
+  const editedText = savedText.slice(0,-1)
+  localStorage.setItem("toDos",savedText);
 }
 
 function clearFromList(){
@@ -114,8 +117,12 @@ function loadList(){
     var toDos = JSON.parse(localStorage.getItem("toDos"));
     console.log(toDos);
     for(var i = 0; i < toDos.length; i++){
-      var toDo = toDos[i];
-      newItem(toDo);
+      if(toDos[i].slice(-2).includes("\u00D7")){ 
+        newItem(toDos[i].slice(0,-1));
+      }else{
+        newItem(toDos[i]);
+      }
+      
     }
   }
 }
@@ -125,12 +132,24 @@ function loadList(){
 function newItem (item){
   var li = document.createElement("li");
   li.appendChild(document.createTextNode(item));
-  console.log(document.createTextNode(item));
-  if(document.createTextNode(item) != null ){
     document.getElementById("myUL").appendChild(li);
-  } 
+    storeList();
 }
 
+function closeButton(){
+  var span = document.createElement("SPAN");
+  var txt = document.createTextNode("\u00D7");
+  span.className = "close";
+  span.appendChild(txt);
+  li.appendChild(span);
+  for (i = 0; i < close.length; i++) {
+    close[i].onclick = function() {
+      var div = this.parentElement;
+      div.style.display = "none";
+    }
+  }
+  
+}
 
 // Create a new list item when clicking on the "Add" button
 function newElement() {
@@ -144,21 +163,9 @@ function newElement() {
     alert("You must write something!");
   } else {
     newItem(inputValue)
-    storeList();
+    closeButton();
   }
   document.getElementById("myInput").value = "";
 
-  var span = document.createElement("BUTTON");
-  var txt = document.createTextNode("\u00D7");
-  span.className = "close";
-  span.appendChild(txt);
-  li.appendChild(span);
-
-  for (i = 0; i < close.length; i++) {
-    close[i].onclick = function() {
-      var div = this.parentElement;
-      div.style.display = "none";
-    }
-  }
 }
 
