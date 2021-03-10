@@ -44,8 +44,6 @@ function createElements(){
 
 
 
-//placing elements on the page
-createElements();
 
 
 // Create a "close" button and append it to each list item
@@ -77,15 +75,53 @@ list.addEventListener('click', function(ev) {
   }
 }, false);
 
+
+function storeList(){
+
+  var toDos = [];
+  let list = document.getElementById('myUL').getElementsByTagName('li');
+  var arrayList = Array.from(list);
+  for (var i = 0; i < arrayList.length; i++ ){
+      toDos.push(arrayList[i]);
+  }
+  localStorage.setItem("toDos",JSON.stringify(toDos));
+}
+
+
+//Loading list from localStorage
+function loadList(){
+  if(localStorage.getItem("toDos")!= null) {
+    var toDos = JSON.parse(localStorage.getItem("toDos"));
+
+    for(var i = 0; i < toDos.length; i++){
+      var toDo = toDos[i];
+      newItem(toDo);
+    }
+  }
+}
+
+
+//Creating list items
+function newItem (item){
+  var li = document.createElement("li");
+  li.appendChild(item);
+  document.getElementById("myUL").appendChild(li);
+}
+
+
 // Create a new list item when clicking on the "Add" button
 function newElement() {
+
   var li = document.createElement("li");
   var inputValue = document.getElementById("myInput").value;
   li.appendChild(document.createTextNode(inputValue));
+
+
   if (inputValue === '') {
     alert("You must write something!");
   } else {
     document.getElementById("myUL").appendChild(li);
+    storeList();
   }
   document.getElementById("myInput").value = "";
 
@@ -102,3 +138,6 @@ function newElement() {
     }
   }
 }
+
+//placing elements on the page
+createElements();
