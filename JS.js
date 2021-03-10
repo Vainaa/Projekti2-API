@@ -4,7 +4,7 @@ function createElements(){
 
   //header
   var header = document.createElement("H2");
-  var text = document.createTextNode("My todo list");
+  var text = document.createTextNode("My to-do list");
   header.appendChild(text);
   
   var element = document.getElementById("div_1");
