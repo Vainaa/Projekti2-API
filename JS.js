@@ -43,7 +43,7 @@ function createElements(){
   var removeBtn = document.createElement("SPAN");
   var text = document.createTextNode("remove");
   removeBtn.className="removeBtn";
-  removeBtn.setAttribute('onClick','clearFromList()');
+  removeBtn.setAttribute('onClick','removeFromList()');
   removeBtn.setAttribute('placeholder','Title...');
   removeBtn.appendChild(text);
   var element = document.getElementById("div_1");
@@ -87,8 +87,7 @@ list.addEventListener('click', function(ev) {
   }
 }, false);
 
-
-function storeList(){
+function updateList(){
 
   var toDos = [];
   const list = Array.from(document.querySelectorAll('#myUL>li'));
@@ -101,7 +100,7 @@ function storeList(){
   localStorage.setItem("toDos",savedText);
 }
 
-function clearFromList(){
+function removeFromList(){
   var toDos = [];
   const list = Array.from(document.querySelectorAll('#myUL>li'));
   
@@ -133,7 +132,7 @@ function newItem (item){
   var li = document.createElement("li");
   li.appendChild(document.createTextNode(item));
     document.getElementById("myUL").appendChild(li);
-    storeList();
+    updateList();
 }
 
 function closeButton(){
@@ -158,9 +157,10 @@ function newElement() {
   var inputValue = document.getElementById("myInput").value;
   li.appendChild(document.createTextNode(inputValue));
 
-
   if (inputValue === '') {
     alert("You must write something!");
+  } else if (inputValue.length <3 || inputValue.length >32) {
+    alert("The input was not between 3 to 32 characters");
   } else {
     newItem(inputValue)
     closeButton();
