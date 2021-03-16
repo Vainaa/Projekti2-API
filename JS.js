@@ -161,8 +161,8 @@ function newElement() {
 
   if (inputValue === '') {
     alert("You must write something!");
-  } else if (inputValue.length <3 || inputValue.length >32) {
-    alert("The input was not between 3 to 32 characters");
+  } else if (inputValue.length < 3 || inputValue.length > 30) {
+    alert("The input was not between 3 to 30 characters");
   } else {
     newItem(inputValue)
     closeButton();
