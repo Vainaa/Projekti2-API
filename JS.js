@@ -63,7 +63,6 @@ function createElements(){
   var text = document.createTextNode("Add");
   btn.className="addBtn";
   btn.setAttribute('onClick','newElement()');
-  btn.setAttribute('placeholder','Title...');
   btn.appendChild(text);
   
   
@@ -78,13 +77,14 @@ function createElements(){
   element.appendChild(list); 
 
   var removeBtn = document.createElement("SPAN");
-  var text = document.createTextNode("remove");
+  var textRemove = document.createTextNode("Clear");
   removeBtn.className="removeBtn";
-  removeBtn.setAttribute('onClick','removeFromList()');
-  removeBtn.setAttribute('placeholder','Title...');
-  removeBtn.appendChild(text);
+  removeBtn.setAttribute('onClick','removeStorage()');
+  removeBtn.appendChild(textRemove);
+
   var element = document.getElementById("div_1");
-  //element.appendChild(removeBtn);
+  element.appendChild(removeBtn);
+
 }
 
 //Loading list from localStorage
@@ -115,8 +115,9 @@ function saveStorage(){
   localStorage.setItem("toDos",savedText);
 }
 
-//Removing item from list and localStorage
-function removeFromList(){
+//Removing item from the local storage
+function removeStorage(){
+  console.log("moi");
   var toDos = [];
   const list = Array.from(document.querySelectorAll('#myUL>li'));
   
@@ -124,6 +125,7 @@ function removeFromList(){
       toDos.push(list[i].textContent);
   }
   localStorage.removeItem("toDos",JSON.stringify(toDos));
+  saveStorage();
 }
 
 // Create a new list item when clicking on the "Add" button
@@ -140,8 +142,8 @@ function newElement() {
     li.appendChild(document.createTextNode(inputValue));
     newItem(inputValue)
     closeButton();
-    document.getElementById("myInput").value = "";
   }
+  document.getElementById("myInput").value = "";
 }
 
 //Creating list items
