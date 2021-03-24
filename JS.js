@@ -1,172 +1,126 @@
-//----------- Load on refresh ------
-
-//placing elements on the page
 createElements();
-loadList();
-
-// Create a "close" button and append it to each list item
-var myNodelist = document.getElementsByTagName("LI");
-var i;
-for (i = 0; i < myNodelist.length; i++) {
-  var span = document.createElement("SPAN");
-  var txt = document.createTextNode("\u00D7");
-  span.className = "close";
-  span.appendChild(txt);
-  myNodelist[i].appendChild(span);
-}
 
 
-// Click on a close button to hide the current list item
-var close = document.getElementsByClassName("close");
-var i;
-for (i = 0; i < close.length; i++) {
-  close[i].onclick = function() {
-    var div = this.parentElement;
-    div.style.display = "none";
-    
-  }
-}
-
-// Add a "checked" symbol when clicking on a list item
-var list = document.querySelector('#myUL');
-list.addEventListener('click', function(ev) {
-  if (ev.target.tagName === 'LI') {
-    ev.target.classList.toggle('checked');
-  }
-}, false);
-
-//----------- Functions ------
-
-//Create elements for the page
+//creating elements on html page
 function createElements(){
-
-  //header
-  var header = document.createElement("H2");
-  var text = document.createTextNode("My to-do list");
-  header.appendChild(text);
   
   var element = document.getElementById("div_1");
+  var element2 = document.getElementById("div_2");
+  var element3 = document.getElementById("div_3");
+  var element4 = document.getElementById("div_4");
+
+  //Header
+  var header = document.createElement("HEADER");
+  var text = document.createTextNode("Todo App");
+  header.appendChild(text);
+
   element.appendChild(header);
 
   //Input field
   var input = document.createElement("INPUT");
   input.type="text";
-  input.className="input";
-  input.setAttribute('id','myInput');
   input.setAttribute('placeholder','Title...');
   
-  
-  var element = document.getElementById("div_1");
-  element.appendChild(input);
+  element2.appendChild(input);
 
   //Add button
-  var btn = document.createElement("SPAN");
-  var text = document.createTextNode("Add");
-  btn.className="addBtn";
-  btn.setAttribute('onClick','newElement()');
+  var btn = document.createElement("BUTTON");
+  text = document.createTextNode("Add");
+ 
   btn.appendChild(text);
+
+  element2.appendChild(btn);
   
-  
-  var element = document.getElementById("div_1");
-  element.appendChild(btn);
-  
-  //List for the items
+  //List
   var list = document.createElement("UL");
-  list.setAttribute('id','myUL');
+  list.className="todoList";
+  
+  element3.appendChild(list); 
 
-  var element = document.getElementById("div_2");
-  element.appendChild(list); 
+  //Footer
+  var spn = document.createElement("SPAN");
+  text = document.createTextNode("Pending tasks: ");
+  spn.appendChild(text);
+  var number = document.createElement("SPAN");
+  number.className="pendingTasks";
+  spn.appendChild(number)
 
-  var removeBtn = document.createElement("SPAN");
-  var textRemove = document.createTextNode("Clear");
-  removeBtn.className="removeBtn";
-  removeBtn.setAttribute('onClick','removeStorage()');
-  removeBtn.appendChild(textRemove);
+  element4.appendChild(spn);
 
-  var element = document.getElementById("div_1");
-  element.appendChild(removeBtn);
+  var btn = document.createElement("BUTTON");
+  text = document.createTextNode("Clear All");
+  btn.appendChild(text);
+  element4.appendChild(btn);
+
 
 }
 
-//Loading list from localStorage
-function loadList(){
-  if(localStorage.getItem("toDos") != null) {
-    var toDos = JSON.parse(localStorage.getItem("toDos"));
-    for(var i = 0; i < toDos.length; i++){
-      if(toDos[i].slice(-2).includes("\u00D7")){ 
-        newItem(toDos[i].slice(0,-1));
-      } else {
-        newItem(toDos[i]);
-      }
-      
+
+// getting all required elements
+const inputBox = document.querySelector(".inputField input");
+const addBtn = document.querySelector(".inputField button");
+const todoList = document.querySelector(".todoList");
+const deleteAllBtn = document.querySelector(".footer button");
+
+showTasks(); //calling showTask function
+
+addBtn.onclick = ()=>{ //when user clicks add button
+  let InputValue = inputBox.value; //getting input field value
+  let localStorageData = localStorage.getItem("New Todo"); //getting localstorage
+
+  if(localStorageData == null){ //if localstorage has no data
+    listArray = []; //create a blank array
+  }else{
+    listArray = JSON.parse(localStorageData);  //transforming json string into a js object
+  }
+
+  if(InputValue.trim() != 0){ //check for valid input
+    if(InputValue.length >= 3 && InputValue.length < 30){ 
+      listArray.push(InputValue); //pushing or adding new value in array
+      localStorage.setItem("New Todo", JSON.stringify(listArray)); //pushing item to local storage
+    } else {
+      alert("Task name invalid");
     }
+  }else {
+    alert("Cannot be empty");
   }
+
+  showTasks(); //calling showTask function
 }
 
-//Save list to the local storage
-function saveStorage(){
-  var toDos = [];
-  const list = Array.from(document.querySelectorAll('#myUL>li'));
-  for (var i = 0; i < list.length; i++ ){
-      toDos.push(list[i].textContent);
+function showTasks(){
+  let localStorageData = localStorage.getItem("New Todo");
+
+  if(localStorageData == null){
+    listArray = [];
+  }else{
+    listArray = JSON.parse(localStorageData); 
   }
-  const savedText = JSON.stringify(toDos)
-  
-  const editedText = savedText.slice(0,-1)
-  localStorage.setItem("toDos",savedText);
+
+  const pendingTasksNumb = document.querySelector(".pendingTasks");
+  pendingTasksNumb.textContent = listArray.length; //Getting task list length
+
+  let newLiTag = "";
+  listArray.forEach((element, index) => {
+    newLiTag += `<li>${element}<span class="icon" onclick="deleteTask(${index})"><span>\u00D7</span></span></span></li>`;
+  });
+
+  todoList.innerHTML = newLiTag; //adding new li tag inside ul tag
+  inputBox.value = ""; //once task added leave the input field blank
 }
 
-//Removing item from the local storage
-function removeStorage(){
-  console.log("moi");
-  var toDos = [];
-  const list = Array.from(document.querySelectorAll('#myUL>li'));
-  
-  for (var i = 0; i < list.length; i++ ){
-      toDos.push(list[i].textContent);
-  }
-  localStorage.removeItem("toDos",JSON.stringify(toDos));
-  saveStorage();
+// delete task function
+function deleteTask(index){
+  let localStorageData = localStorage.getItem("New Todo");
+  listArray = JSON.parse(localStorageData);
+  listArray.splice(index, 1); //delete or remove the li
+  localStorage.setItem("New Todo", JSON.stringify(listArray));
+  showTasks(); //call the showTasks function
 }
 
-// Create a new list item when clicking on the "Add" button
-function newElement() {
-
-  var li = document.createElement("li");
-  var inputValue = document.getElementById("myInput").value;
-  
-  if (inputValue === '') {
-    alert("You must write something!");
-  } else if (inputValue.length < 3 || inputValue.length > 30) {
-    alert("The input was not between 3 to 30 characters");
-  } else {
-    li.appendChild(document.createTextNode(inputValue));
-    newItem(inputValue)
-    closeButton();
-  }
-  document.getElementById("myInput").value = "";
-}
-
-//Creating list items
-function newItem (item){
-  var li = document.createElement("li");
-  li.appendChild(document.createTextNode(item));
-    document.getElementById("myUL").appendChild(li);
-    saveStorage();
-}
-
-//Add close button and necessary functions for a new list item
-function closeButton(){
-  var myNodelist = document.getElementsByTagName("LI");
-    var span = document.createElement("SPAN");
-    var txt = document.createTextNode("\u00D7");
-    span.className = "close";
-    span.appendChild(txt);
-    myNodelist[i].appendChild(span);
-
-    var close = document.getElementsByClassName("close");
-    close[i].onclick = function() {
-      var div = this.parentElement;
-      div.style.display = "none";
-    }
+// delete all tasks function
+deleteAllBtn.onclick = ()=>{
+  listArray = []; //empty the array
+  localStorage.setItem("New Todo", JSON.stringify(listArray)); //set the item in localstorage
+  showTasks(); //call the showTasks function
 }
