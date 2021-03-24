@@ -54,8 +54,8 @@ function createElements(){
   text = document.createTextNode("Clear All");
   btn.appendChild(text);
   element4.appendChild(btn);
-
 }
+
 
 // getting all required elements
 const inputBox = document.querySelector(".inputField input");
@@ -63,7 +63,7 @@ const addBtn = document.querySelector(".inputField button");
 const todoList = document.querySelector(".todoList");
 const deleteAllBtn = document.querySelector(".footer button");
 
-showTasks(); //calling showTasks function
+listItems(); //calling listItems function
 
 addBtn.onclick = ()=>{ //when user clicks add button
   let InputValue = inputBox.value; //getting input field value
@@ -86,7 +86,7 @@ addBtn.onclick = ()=>{ //when user clicks add button
     alert("Cannot be empty");
   }
 
-  showTasks(); //calling showTasks function
+  listItems(); //calling listItems function
 }
 
 function listItems(){
