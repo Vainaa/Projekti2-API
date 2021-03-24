@@ -68,9 +68,9 @@ addBtn.onclick = ()=>{ //when user clicks add button
   let InputValue = inputBox.value; //getting input field value
   let localStorageData = localStorage.getItem("New Todo"); //getting localstorage
 
-  if(localStorageData == null){ //if localstorage has no data
+  if (localStorageData == null){ //if localstorage has no data
     listArray = []; //create a blank array
-  }else{
+  } else {
     listArray = JSON.parse(localStorageData);  //transforming json string into a js object
   }
 
