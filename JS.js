@@ -63,7 +63,7 @@ const addBtn = document.querySelector(".inputField button");
 const todoList = document.querySelector(".todoList");
 const deleteAllBtn = document.querySelector(".footer button");
 
-listItems(); //calling listItems function
+showTasks(); //calling showTasks function
 
 addBtn.onclick = ()=>{ //when user clicks add button
   let InputValue = inputBox.value; //getting input field value
@@ -86,7 +86,7 @@ addBtn.onclick = ()=>{ //when user clicks add button
     alert("Cannot be empty");
   }
 
-  listItems(); //calling listItems function
+  showTasks(); //calling showTasks function
 }
 
 function listItems(){
