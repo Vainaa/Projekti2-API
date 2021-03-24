@@ -30,7 +30,7 @@ function createElements(){
   btn.appendChild(text);
 
   element2.appendChild(btn);
-  //asd
+
   //List
   var list = document.createElement("UL");
   list.className="todoList";
