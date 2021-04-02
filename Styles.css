@@ -9,8 +9,18 @@
   color: #ffff;
   background: rgb(142, 73, 232);
 }
-.checked{
+.todoList li.checked{
   text-decoration: line-through;
+  position: relative;
+  list-style: none;
+  height: 45px;
+  line-height: 45px;
+  margin-bottom: 8px;
+  background: #807f7fb9;
+  border-radius: 3px;
+  padding: 0 15px;
+  cursor: default;
+  overflow: hidden;
 }
 body{
   width: 100%;
