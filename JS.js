@@ -100,7 +100,7 @@ function listItems() {
 
   let newListItem = "";
   listArray.forEach((element, index) => {
-    newListItem += `<li>${element}<span class="icon" onclick="deleteTask(${index})"><span>\u00D7</span></span></span></li>`;
+    newListItem += `<li onclick="classList.toggle('checked')">${element}<span class="icon" onclick="deleteTask(${index})"><span>\u00D7</span></span></span></li>`;
   });
 
   todoList.innerHTML = newListItem; //adding new li tag inside ul tag
