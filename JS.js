@@ -67,14 +67,12 @@ listItems(); //calling listItems function
 
 addBtn.onclick = ()=> { //when user clicks add button
   let InputValue = inputBox.value; //getting input field value
-  let localStorageData = localStorage.getItem("New Todo"); //getting localstorage
 
-  if (localStorageData == null) { //if localstorage has no data
+  if (localStorage.getItem("New Todo") == null) { //if localstorage has no data
     listArray = []; //create a blank array
   } else {
-    listArray = JSON.parse(localStorageData);  //transforming json string into a js object
+    listArray = JSON.parse(localStorage.getItem("New Todo"));  //Adding items from local storage
   }
-
   if (InputValue.trim() != 0) { //check for valid input
     if (InputValue.length >= 3 && InputValue.length < 30) { 
       listArray.push(InputValue); //adding new value in array
@@ -90,14 +88,13 @@ addBtn.onclick = ()=> { //when user clicks add button
 }
 
 function listItems() {
-  let localStorageData = localStorage.getItem("New Todo");
+ 
 
-  if (localStorageData == null) {
-    listArray = [];
+  if (localStorage.getItem("New Todo") == null) { //if localstorage has no data
+    listArray = []; //create a blank array
   } else {
-    listArray = JSON.parse(localStorageData); 
+    listArray = JSON.parse(localStorage.getItem("New Todo")); //Adding items from local storage
   }
-
   const pendingTasks = document.querySelector(".pendingTasks");
   pendingTasks.textContent = listArray.length; //Getting task list length
 
@@ -112,8 +109,7 @@ function listItems() {
 
 // delete task function
 function deleteTask(index) {
-  let localStorageData = localStorage.getItem("New Todo");
-  listArray = JSON.parse(localStorageData);
+  listArray = JSON.parse(localStorage.getItem("New Todo"));
   listArray.splice(index, 1); //remove the li
   localStorage.setItem("New Todo", JSON.stringify(listArray));
   listItems(); //call the listItems function
