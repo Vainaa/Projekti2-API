@@ -41,7 +41,7 @@ body {
 .inputField input:focus {
   border-color: #3b758b;
 }
-.inputField button { 
+.inputField button {
   width: 60px;
   height: 100%; /* --- onko tarpeellinen? */
   margin-left: 5px;
