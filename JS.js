@@ -14,7 +14,7 @@ function createElements() {
 
   //Header
   var header = document.createElement("HEADER");
-  var text = document.createTextNode("Todo App");
+  var text = document.createTextNode("My Todos");
   header.appendChild(text);
 
   element.appendChild(header);
@@ -77,7 +77,7 @@ addBtn.onclick = ()=> { //when user clicks add button
 
   if (InputValue.trim() != 0) { //check for valid input
     if (InputValue.length >= 3 && InputValue.length < 30) { 
-      listArray.push(InputValue); //pushing or adding new value in array
+      listArray.push(InputValue); //adding new value in array
       localStorage.setItem("New Todo", JSON.stringify(listArray)); //pushing item to local storage
     } else {
       alert("The input was not between 3 to 30 characters");
@@ -98,15 +98,15 @@ function listItems() {
     listArray = JSON.parse(localStorageData); 
   }
 
-  const pendingTasksNumb = document.querySelector(".pendingTasks");
-  pendingTasksNumb.textContent = listArray.length; //Getting task list length
+  const pendingTasks = document.querySelector(".pendingTasks");
+  pendingTasks.textContent = listArray.length; //Getting task list length
 
-  let newLiTag = "";
+  let newListItem = "";
   listArray.forEach((element, index) => {
-    newLiTag += `<li>${element}<span class="icon" onclick="deleteTask(${index})"><span>\u00D7</span></span></span></li>`;
+    newListItem += `<li>${element}<span class="icon" onclick="deleteTask(${index})"><span>\u00D7</span></span></span></li>`;
   });
 
-  todoList.innerHTML = newLiTag; //adding new li tag inside ul tag
+  todoList.innerHTML = newListItem; //adding new li tag inside ul tag
   inputBox.value = ""; //once task added leave the input field blank
 }
 
@@ -114,7 +114,7 @@ function listItems() {
 function deleteTask(index) {
   let localStorageData = localStorage.getItem("New Todo");
   listArray = JSON.parse(localStorageData);
-  listArray.splice(index, 1); //delete or remove the li
+  listArray.splice(index, 1); //remove the li
   localStorage.setItem("New Todo", JSON.stringify(listArray));
   listItems(); //call the listItems function
 }
