@@ -14,7 +14,7 @@ function createElements() {
 
   //Header
   var header = document.createElement("HEADER");
-  var text = document.createTextNode("Todo App");
+  var text = document.createTextNode("My Todos");
   header.appendChild(text);
 
   element.appendChild(header);
@@ -58,26 +58,24 @@ function createElements() {
 
 
 // getting all required elements
-const inputBox = document.querySelector(".inputField input");
-const addBtn = document.querySelector(".inputField button");
+const input = document.querySelector(".inputField input");
+const addButton = document.querySelector(".inputField button");
 const todoList = document.querySelector(".todoList");
-const deleteAllBtn = document.querySelector(".footer button");
+const deleteAllButton = document.querySelector(".footer button");
 
 listItems(); //calling listItems function
 
-addBtn.onclick = ()=> { //when user clicks add button
-  let InputValue = inputBox.value; //getting input field value
-  let localStorageData = localStorage.getItem("New Todo"); //getting localstorage
+addButton.onclick = ()=> { //when user clicks add button
+  let InputValue = input.value; //getting input field value
 
-  if (localStorageData == null) { //if localstorage has no data
+  if (localStorage.getItem("New Todo") == null) { //if localstorage has no data
     listArray = []; //create a blank array
   } else {
-    listArray = JSON.parse(localStorageData);  //transforming json string into a js object
+    listArray = JSON.parse(localStorage.getItem("New Todo"));  //Adding items from local storage
   }
-
   if (InputValue.trim() != 0) { //check for valid input
     if (InputValue.length >= 3 && InputValue.length < 30) { 
-      listArray.push(InputValue); //pushing or adding new value in array
+      listArray.push(InputValue); //adding new value in array
       localStorage.setItem("New Todo", JSON.stringify(listArray)); //pushing item to local storage
     } else {
       alert("The input was not between 3 to 30 characters");
@@ -90,37 +88,35 @@ addBtn.onclick = ()=> { //when user clicks add button
 }
 
 function listItems() {
-  let localStorageData = localStorage.getItem("New Todo");
+ 
 
-  if (localStorageData == null) {
-    listArray = [];
+  if (localStorage.getItem("New Todo") == null) { //if localstorage has no data
+    listArray = []; //create a blank array
   } else {
-    listArray = JSON.parse(localStorageData); 
+    listArray = JSON.parse(localStorage.getItem("New Todo")); //Adding items from local storage
   }
+  const pendingTasks = document.querySelector(".pendingTasks");
+  pendingTasks.textContent = listArray.length; //Getting task list length
 
-  const pendingTasksNumb = document.querySelector(".pendingTasks");
-  pendingTasksNumb.textContent = listArray.length; //Getting task list length
-
-  let newLiTag = "";
+  let newListItem = "";
   listArray.forEach((element, index) => {
-    newLiTag += `<li>${element}<span class="icon" onclick="deleteTask(${index})"><span>\u00D7</span></span></span></li>`;
+    newListItem += `<li onclick="classList.toggle('checked')">${element}<span class="icon" onclick="deleteTask(${index})"><span>\u00D7</span></span></span></li>`;
   });
 
-  todoList.innerHTML = newLiTag; //adding new li tag inside ul tag
-  inputBox.value = ""; //once task added leave the input field blank
+  todoList.innerHTML = newListItem; //adding new li tag inside ul tag
+  input.value = ""; //once task added leave the input field blank
 }
 
 // delete task function
 function deleteTask(index) {
-  let localStorageData = localStorage.getItem("New Todo");
-  listArray = JSON.parse(localStorageData);
-  listArray.splice(index, 1); //delete or remove the li
+  listArray = JSON.parse(localStorage.getItem("New Todo"));
+  listArray.splice(index, 1); //remove the li
   localStorage.setItem("New Todo", JSON.stringify(listArray));
   listItems(); //call the listItems function
 }
 
 // delete all tasks function
-deleteAllBtn.onclick = ()=> {
+deleteAllButton.onclick = ()=> {
   listArray = []; //empty the array
   localStorage.setItem("New Todo", JSON.stringify(listArray)); //set the item in localstorage
   listItems(); //call the listItems function

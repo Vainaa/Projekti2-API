@@ -79,7 +79,7 @@ body {
   cursor: default;
   overflow: hidden;
 }
-.todoList li .checked {
+.todoList li.checked{
   text-decoration: line-through;
   position: relative;
   list-style: none;
@@ -87,6 +87,7 @@ body {
   line-height: 45px;
   margin-bottom: 8px;
   background: #807f7fb9;
+  color: rgb(255, 255, 255);
   border-radius: 3px;
   padding: 0 15px;
   cursor: default;
