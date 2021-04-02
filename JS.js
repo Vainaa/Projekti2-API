@@ -100,22 +100,22 @@ function listItems() {
 
   let newListItem = "";
   listArray.forEach((element, index) => {
-    newListItem += `<li onclick="classList.toggle('checked')">${element}<span class="icon" onclick="deleteTask(${index})"><span>\u00D7</span></span></span></li>`;
+    newListItem += `<li onclick="classList.toggle('checked')">${element}<span class="icon" onclick="deleteItem(${index})"><span>\u00D7</span></span></span></li>`;
   });
 
   todoList.innerHTML = newListItem; //adding new li tag inside ul tag
   input.value = ""; //once task added leave the input field blank
 }
 
-// delete task function
-function deleteTask(index) {
+// delete item function
+function deleteItem(index) {
   listArray = JSON.parse(localStorage.getItem("New Todo"));
   listArray.splice(index, 1); //remove the li
   localStorage.setItem("New Todo", JSON.stringify(listArray));
   listItems(); //call the listItems function
 }
 
-// delete all tasks function
+// delete all items function
 deleteAllButton.onclick = ()=> {
   listArray = []; //empty the array
   localStorage.setItem("New Todo", JSON.stringify(listArray)); //set the item in localstorage
