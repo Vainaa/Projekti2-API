@@ -10,7 +10,7 @@ body {
   height: 100vh;
   /* overflow: hidden; */
   padding: 10px;
-  background: linear-gradient(to bottom, #68EACC 0%, #497BE8 100%);
+  background: rgb(236, 236, 236)
 }
 .wrapper {
   background: #fff;
@@ -20,6 +20,7 @@ body {
   padding: 25px;
   border-color: #323a3d;
   border-radius: 15px;
+  border: 2px solid rgb(0, 0, 0);
 }
 .wrapper header {
   font-size: 30px;
@@ -96,13 +97,16 @@ body {
 .todoList li .icon {
   position: absolute;
   right: 0px;
-  background: #c2c1c1;
+  background: #db3131c7;
   width: 45px;
   text-align: center;
   color: rgb(255, 255, 255);
   border-radius: 0 3px 3px 0;
   cursor: pointer;
   transition: all 0.2s ease;
+}
+.todoList li .icon:hover{
+  background: #f11212;
 }
 
 .wrapper .footer {
