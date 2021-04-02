@@ -42,7 +42,7 @@ function createElements() {
 
   //Footer
   var spn = document.createElement("SPAN");
-  text = document.createTextNode("Pending tasks: ");
+  text = document.createTextNode("Current tasks: ");
   spn.appendChild(text);
   var number = document.createElement("SPAN");
   number.className="pendingTasks";
