@@ -58,15 +58,15 @@ function createElements() {
 
 
 // getting all required elements
-const inputBox = document.querySelector(".inputField input");
-const addBtn = document.querySelector(".inputField button");
+const input = document.querySelector(".inputField input");
+const addButton = document.querySelector(".inputField button");
 const todoList = document.querySelector(".todoList");
-const deleteAllBtn = document.querySelector(".footer button");
+const deleteAllButton = document.querySelector(".footer button");
 
 listItems(); //calling listItems function
 
-addBtn.onclick = ()=> { //when user clicks add button
-  let InputValue = inputBox.value; //getting input field value
+addButton.onclick = ()=> { //when user clicks add button
+  let InputValue = input.value; //getting input field value
 
   if (localStorage.getItem("New Todo") == null) { //if localstorage has no data
     listArray = []; //create a blank array
@@ -104,7 +104,7 @@ function listItems() {
   });
 
   todoList.innerHTML = newListItem; //adding new li tag inside ul tag
-  inputBox.value = ""; //once task added leave the input field blank
+  input.value = ""; //once task added leave the input field blank
 }
 
 // delete task function
@@ -116,7 +116,7 @@ function deleteTask(index) {
 }
 
 // delete all tasks function
-deleteAllBtn.onclick = ()=> {
+deleteAllButton.onclick = ()=> {
   listArray = []; //empty the array
   localStorage.setItem("New Todo", JSON.stringify(listArray)); //set the item in localstorage
   listItems(); //call the listItems function
