@@ -1,10 +1,10 @@
 //----------- Load on refresh ------
 
-//placing elements on the page
+//Laitetaan elementit sivulle
 createElements();
 
 
-//creating elements on html page
+//Luodaan elementit
 function createElements() {
   
   var element = document.getElementById("div_1");
@@ -14,7 +14,7 @@ function createElements() {
 
   //Header
   var header = document.createElement("HEADER");
-  var text = document.createTextNode("My Todos");
+  var text = document.createTextNode("My To-Do's");
   header.appendChild(text);
 
   element.appendChild(header);
@@ -26,7 +26,7 @@ function createElements() {
   
   element2.appendChild(input);
 
-  //Add button
+  //Add-nappula
   var btn = document.createElement("BUTTON");
   text = document.createTextNode("Add");
  
@@ -57,67 +57,69 @@ function createElements() {
 }
 
 
-// getting all required elements
+//Haetaan elementit
 const input = document.querySelector(".inputField input");
 const addButton = document.querySelector(".inputField button");
 const todoList = document.querySelector(".todoList");
 const deleteAllButton = document.querySelector(".footer button");
 
-listItems(); //calling listItems function
+listItems(); //Kutsutaan listItems-funktiota
 
-addButton.onclick = ()=> { //when user clicks add button
-  let InputValue = input.value; //getting input field value
+addButton.onclick = ()=> { //Kun käyttäjä klikkaa Add-buttonia
+  let InputValue = input.value; //Haetaan Input fieldin arvo
 
-  if (localStorage.getItem("New Todo") == null) { //if localstorage has no data
-    listArray = []; //create a blank array
+  if (localStorage.getItem("New Todo") == null) { //Jos local storagessa ei ole dataa
+    listArray = []; //Luodaan tyhjä array
   } else {
-    listArray = JSON.parse(localStorage.getItem("New Todo"));  //Adding items from local storage
+    listArray = JSON.parse(localStorage.getItem("New Todo"));  //Lisätään itemit local storagelta
   }
-  if (InputValue.trim() != 0) { //check for valid input
+  if (InputValue.trim() != 0) { //Tarkistetaan kenttävalidaatio
     if (InputValue.length >= 3 && InputValue.length < 30) { 
-      listArray.push(InputValue); //adding new value in array
-      localStorage.setItem("New Todo", JSON.stringify(listArray)); //pushing item to local storage
+      listArray.push(InputValue); //Lisätään uusi arvo arrayhin
+      localStorage.setItem("New Todo", JSON.stringify(listArray)); //Itemin lisäys local storageen
     } else {
-      alert("The input was not between 3 to 30 characters");
+      alert("The input was not between 3 to 30 characters"); //Alert-viesti
+      document.getElementById("input").style.borderColor = "red";
     }
   } else {
-    alert("You must write something");
+    alert("You must write something"); //Alert-viesti
+    document.getElementById("input").style.borderColor = "red";
   }
 
-  listItems(); //calling listItems function
+  listItems(); //Kutsutaan listItems-funktiota
 }
 
 function listItems() {
  
 
-  if (localStorage.getItem("New Todo") == null) { //if localstorage has no data
-    listArray = []; //create a blank array
+  if (localStorage.getItem("New Todo") == null) { //Jos local storagessa ei ole dataa
+    listArray = []; //Luodaan tyhjä array
   } else {
-    listArray = JSON.parse(localStorage.getItem("New Todo")); //Adding items from local storage
+    listArray = JSON.parse(localStorage.getItem("New Todo")); //Lisätään itemit local storagelta
   }
   const pendingTasks = document.querySelector(".pendingTasks");
-  pendingTasks.textContent = listArray.length; //Getting task list length
+  pendingTasks.textContent = listArray.length; //Lasketaan jäljellä olevat tehtävät ja tulostetaan Current tasksin perään numerona
 
   let newListItem = "";
   listArray.forEach((element, index) => {
     newListItem += `<li onclick="classList.toggle('checked')">${element}<span class="icon" onclick="deleteItem(${index})"><span>\u00D7</span></span></span></li>`;
   });
 
-  todoList.innerHTML = newListItem; //adding new li tag inside ul tag
-  input.value = ""; //once task added leave the input field blank
+  todoList.innerHTML = newListItem; //Lisätään uusi li-tagi ul-tagin sisällä
+  input.value = ""; //Jätetään Input field tyhjäksi, kun taski on lisätty listaan
 }
 
-// delete item function
+// Delete item -funktio
 function deleteItem(index) {
   listArray = JSON.parse(localStorage.getItem("New Todo"));
-  listArray.splice(index, 1); //remove the li
+  listArray.splice(index, 1); //Poistetaan li
   localStorage.setItem("New Todo", JSON.stringify(listArray));
-  listItems(); //call the listItems function
+  listItems(); //Kutsutaan listItems-funktiota
 }
 
-// delete all items function
+// Clear All -nappula, joka poistaa kaiken listalta
 deleteAllButton.onclick = ()=> {
-  listArray = []; //empty the array
-  localStorage.setItem("New Todo", JSON.stringify(listArray)); //set the item in localstorage
-  listItems(); //call the listItems function
+  listArray = []; //Tyhjennetään array
+  localStorage.setItem("New Todo", JSON.stringify(listArray)); //set item local storagessa
+  listItems(); //Kutsutaan listItems-funktiota
 }
