@@ -102,7 +102,7 @@ function listItems() {
 
   let newListItem = "";
   listArray.forEach((element, index) => {
-    newListItem += `<li onclick="classList.toggle('checked')">${element}<span class="icon" onclick="removeItem(${index})"><span>\u00D7</span></span></span></li>`; //Tehdyn taskin yliviivaus
+    newListItem += `<li onclick="classList.toggle('checked')">${element}<span class="icon" onclick="removeItem(${index})"><span>\u00D7</span></span></li>`;
   });
 
   todoList.innerHTML = newListItem; //Lisätään uusi li-tagi ul-tagin sisällä
