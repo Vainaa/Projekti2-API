@@ -61,7 +61,7 @@ function createElements() {
 const input = document.querySelector(".inputField input");
 const addButton = document.querySelector(".inputField button");
 const todoList = document.querySelector(".todoList");
-const deleteAllButton = document.querySelector(".footer button");
+const removeAllButton = document.querySelector(".footer button");
 
 listItems(); //Kutsutaan listItems-funktiota
 
@@ -118,7 +118,7 @@ function removeItem(index) {
 }
 
 // Clear All -nappula, joka poistaa kaiken listalta
-clearAllButton.onclick = ()=> {
+removeAllButton.onclick = ()=> {
   listArray = []; //Tyhjennetään array
   localStorage.setItem("New Todo", JSON.stringify(listArray)); //set item local storagessa
   listItems(); //Kutsutaan listItems-funktiota
