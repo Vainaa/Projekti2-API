@@ -23,6 +23,7 @@ function createElements() {
   var input = document.createElement("INPUT");
   input.type="text";
   input.setAttribute('placeholder','Title...');
+  element.setAttribute("required", ""); // HELP
   
   element2.appendChild(input);
 
