@@ -102,15 +102,15 @@ function listItems() {
 
   let newListItem = "";
   listArray.forEach((element, index) => {
-    newListItem += `<li onclick="classList.toggle('checked')">${element}<span class="icon" onclick="deleteItem(${index})"><span>\u00D7</span></span></span></li>`;
+    newListItem += `<li onclick="classList.toggle('checked')">${element}<span class="icon" onclick="removeItem(${index})"><span>\u00D7</span></span></span></li>`;
   });
 
   todoList.innerHTML = newListItem; //Lisätään uusi li-tagi ul-tagin sisällä
   input.value = ""; //Jätetään Input field tyhjäksi, kun taski on lisätty listaan
 }
 
-// Delete item -funktio
-function deleteItem(index) {
+// Remove item -funktio
+function removeItem(index) {
   listArray = JSON.parse(localStorage.getItem("New Todo"));
   listArray.splice(index, 1); //Poistetaan li
   localStorage.setItem("New Todo", JSON.stringify(listArray));
@@ -118,7 +118,7 @@ function deleteItem(index) {
 }
 
 // Clear All -nappula, joka poistaa kaiken listalta
-deleteAllButton.onclick = ()=> {
+clearAllButton.onclick = ()=> {
   listArray = []; //Tyhjennetään array
   localStorage.setItem("New Todo", JSON.stringify(listArray)); //set item local storagessa
   listItems(); //Kutsutaan listItems-funktiota
