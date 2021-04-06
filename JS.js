@@ -78,12 +78,12 @@ addButton.onclick = ()=> { //Kun käyttäjä klikkaa Add-buttonia
       listArray.push(InputValue); //Lisätään uusi arvo arrayhin
       localStorage.setItem("New Todo", JSON.stringify(listArray)); //Itemin lisäys local storageen
     } else {
-      alert("The input was not between 3 to 30 characters"); //Alert-viesti
-      document.getElementById("input").style.borderColor = "red";
+      document.querySelector(".inputField input").style.borderColor = "red";
+      alert("The input was not between 3 to 30 characters"); //Alert-viesti  
     }
   } else {
-    alert("You must write something"); //Alert-viesti
-    document.getElementById("input").style.borderColor = "red";
+    document.querySelector(".inputField input").style.borderColor = "red";
+    alert("You must write something"); //Alert-viesti   
   }
 
   listItems(); //Kutsutaan listItems-funktiota
