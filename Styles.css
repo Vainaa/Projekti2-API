@@ -70,7 +70,7 @@ body {
   position: relative;
   display: flex;
   flex-wrap: nowrap;
-  overflow-x: auto;
+  overflow-y: auto;
   
 }
 
