@@ -14,7 +14,7 @@ function createElements() {
 
   //Header
   var header = document.createElement("HEADER");
-  var text = document.createTextNode("My To-Do's");
+  var text = document.createTextNode("Search for country");
   header.appendChild(text);
 
   element.appendChild(header);
@@ -28,7 +28,7 @@ function createElements() {
 
   //Add-nappula
   var btn = document.createElement("BUTTON");
-  text = document.createTextNode("Add");
+  text = document.createTextNode("Search");
  
   btn.appendChild(text);
 
@@ -62,31 +62,41 @@ const input = document.querySelector(".inputField input");
 const addButton = document.querySelector(".inputField button");
 const todoList = document.querySelector(".todoList");
 const removeAllButton = document.querySelector(".footer button");
-
+var cases ='';
+var size = "";
 listItems(); //Kutsutaan listItems-funktiota
 
-addButton.onclick = ()=> { //Kun käyttäjä klikkaa Add-buttonia
-  let InputValue = input.value; //Haetaan Input fieldin arvo
+function loadDoc(value) {
+  fetch("https://api.covid19api.com/country/"+value+"/status/confirmed/live")
+  .then(response => response.json())
+  .then(data => size = (data.length))
+  .then(console.log(size))
+  .then(cases=data[size].Cases);
+}
 
+
+
+
+addButton.onclick = ()=> { //Kun käyttäjä klikkaa Add-buttonia
+  
+  let InputValue = input.value; //Haetaan Input fieldin arvo
+  
   if (localStorage.getItem("New Todo") == null) { //Jos local storagessa ei ole dataa
     listArray = []; //Luodaan tyhjä array
   } else {
     listArray = JSON.parse(localStorage.getItem("New Todo"));  //Lisätään itemit local storagelta
   }
-  if (InputValue.trim() != 0) { //Tarkistetaan kenttävalidaatio
-    if (InputValue.length >= 3 && InputValue.length < 30) { 
-      listArray.push(InputValue); //Lisätään uusi arvo arrayhin
+  if (InputValue.trim() != 0) { //Tarkistetaan kenttävalidaatio   
+      var text = InputValue+": "+cases+" Confirmed cases.";
+      listArray.push(text); //Lisätään uusi arvo arrayhin
       localStorage.setItem("New Todo", JSON.stringify(listArray)); //Itemin lisäys local storageen
-    } else {
-      document.querySelector(".inputField input").style.borderColor = "red";
-      alert("The input was not between 3 to 30 characters"); //Alert-viesti  
-    }
   } else {
     document.querySelector(".inputField input").style.borderColor = "red";
     alert("You must write something"); //Alert-viesti   
   }
 
   listItems(); //Kutsutaan listItems-funktiota
+  loadDoc(InputValue);
 }
 
 function listItems() {
@@ -102,11 +112,11 @@ function listItems() {
 
   let newListItem = "";
   listArray.forEach((element, index) => {
-    newListItem += `<li onclick="classList.toggle('checked')">${element}<span class="icon" onclick="removeItem(${index})"><span>\u00D7</span></span></li>`;
+    newListItem += `<li>${element}<span class="icon" onclick="removeItem(${index})"><span>\u00D7</span></span></li>`;
   });
 
   todoList.innerHTML = newListItem; //Lisätään uusi li-tagi ul-tagin sisällä
-  input.value = ""; //Jätetään Input field tyhjäksi, kun taski on lisätty listaan
+  //input.value = ""; //Jätetään Input field tyhjäksi, kun taski on lisätty listaan
 }
 
 // Remove item -funktio
