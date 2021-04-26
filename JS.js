@@ -14,7 +14,7 @@ function createElements() {
 
   //Header
   var header = document.createElement("HEADER");
-  var text = document.createTextNode("Search for country");
+  var text = document.createTextNode("Confirmed COVID19 Cases by country");
   header.appendChild(text);
 
   element.appendChild(header);
@@ -22,7 +22,7 @@ function createElements() {
   //Input field
   var input = document.createElement("INPUT");
   input.type="text";
-  input.setAttribute('placeholder','Title...');
+  input.setAttribute('placeholder','Country...');
   
   element2.appendChild(input);
 
@@ -41,15 +41,6 @@ function createElements() {
   element3.appendChild(list); 
 
   //Footer
-  var spn = document.createElement("SPAN");
-  text = document.createTextNode("Current tasks: ");
-  spn.appendChild(text);
-  var number = document.createElement("SPAN");
-  number.className="pendingTasks";
-  spn.appendChild(number)
-
-  element4.appendChild(spn);
-
   var btn = document.createElement("BUTTON");
   text = document.createTextNode("Clear All");
   btn.appendChild(text);
@@ -65,52 +56,50 @@ const removeAllButton = document.querySelector(".footer button");
 
 listItems(); //Kutsutaan listItems-funktiota
 
-function loadDoc(value) {
+function getCases(value) { // Kutsutaan rajapinnalta data hakusanan perusteella
   fetch("https://api.covid19api.com/country/"+value+"/status/confirmed/live")
   .then(response => response.json())
   .then(data => numberOfCases=(data[data.length-1].Cases))
+  .catch(() => window.alert("Oops! Looks like that country can't be found!"))
 }
 
+function getDate(value) { // Kutsutaan rajapinnalta data hakusanan perusteella
+  fetch("https://api.covid19api.com/country/"+value+"/status/confirmed/live")
+  .then(response => response.json())
+  .then(data => date=(data[data.length-1].Date).slice(0,-10))
+  .catch(() => window.alert("Oops! Looks like that country can't be found!"))
+}
 var numberOfCases ='';
+var date="";
 
-
-addButton.onclick = ()=> { //Kun käyttäjä klikkaa Add-buttonia
+addButton.onclick = ()=> { //Kun käyttäjä klikkaa Search-buttonia
   var InputValue = input.value; //Haetaan Input fieldin arvo
-  loadDoc(InputValue); 
-  setTimeout(()=>{
-    
-    
+  getCases(InputValue); //kutsutaan getCases funktiota
+  getDate(InputValue)//kutsutaan getDate funktiota
+  setTimeout(()=>{ 
     if (localStorage.getItem("New Todo") == null) { //Jos local storagessa ei ole dataa
       listArray = []; //Luodaan tyhjä array
     }
     if (InputValue.trim() != 0) { //Tarkistetaan kenttävalidaatio
-        var text = InputValue+": "+numberOfCases+" Confirmed cases.";
+        var text = InputValue+": "+numberOfCases+" Confirmed cases as of "+date+".";
         listArray.push(text); //Lisätään uusi arvo arrayhin
         localStorage.setItem("New Todo", JSON.stringify(listArray)); //Itemin lisäys local storageen
-      
-        
-        
     } else {
       document.querySelector(".inputField input").style.borderColor = "red";
       alert("You must write something"); //Alert-viesti   
-    }
-    
+    } 
     listItems(); //Kutsutaan listItems-funktiota
   },100
   )
-  
 }
 
 function listItems() {
- 
 
   if (localStorage.getItem("New Todo") == null) { //Jos local storagessa ei ole dataa
     listArray = []; //Luodaan tyhjä array
   } else {
     listArray = JSON.parse(localStorage.getItem("New Todo")); //Lisätään itemit local storagelta
   }
-  const pendingTasks = document.querySelector(".pendingTasks");
-  pendingTasks.textContent = listArray.length; //Lasketaan jäljellä olevat tehtävät ja tulostetaan Current tasksin perään numerona
 
   let newListItem = "";
   listArray.forEach((element, index) => {
