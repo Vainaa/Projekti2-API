@@ -53,42 +53,38 @@ const input = document.querySelector(".inputField input");
 const addButton = document.querySelector(".inputField button");
 const covidList = document.querySelector(".covidList");
 const removeAllButton = document.querySelector(".footer button");
-var text;
 listItems(); //Kutsutaan listItems-funktiota
 
 async function getCases(value) { // Haetaan rajapinnalta data hakusanan perusteella
   await fetch("https://api.covid19api.com/country/"+value+"/status/confirmed/live")
   .then(response => response.json())
   .then(data =>{
-    if (localStorage.getItem("New Todo") == null) { //Jos local storagessa ei ole dataa
+    if (localStorage.getItem("New Query") == null) { //Jos local storagessa ei ole dataa
       listArray = []; //Luodaan tyhjä array
     }
-    if (value.trim() != 0) { //Tarkistetaan kenttävalidaatio
-        const text = value+": "+(data[data.length-1].Cases)+" Confirmed cases as of "+(data[data.length-1].Date).slice(0,-10)+".";
-        listArray.push(text); //Lisätään uusi arvo arrayhin
-        localStorage.setItem("New Todo", JSON.stringify(listArray)); //Itemin lisäys local storageen
-        
+    if (value.trim() != 0) { //Tarkistetaan kenttävalidaatio  
+        listArray.push(value+": "+(data[data.length-1].Cases)+" Confirmed cases as of "+(data[data.length-1].Date).slice(0,-10)+"."); //Lisätään uusi arvo arrayhin
+        localStorage.setItem("New Query", JSON.stringify(listArray)); //Itemin lisäys local storageen
     } else {
       document.querySelector(".inputField input").style.borderColor = "red";
       alert("You must write something"); //Alert-viesti   
     } 
     listItems(); //Kutsutaan listItems-funktiota
   })
-  .catch(() => window.alert("Oops! Looks like something went wrong!"))
+  .catch(() => window.alert("Looks like something went wrong! \n\nCheck if the name of the country is spelled right"))
 }
 
 addButton.onclick = ()=> { //Kun käyttäjä klikkaa Search-buttonia
   var InputValue = input.value; //Haetaan Input fieldin arvo
-  getCases(InputValue);
- //kutsutaan getCases funktiota
+  getCases(InputValue);//kutsutaan getCases funktiota
 }
 
 function listItems() {
 
-  if (localStorage.getItem("New Todo") == null) { //Jos local storagessa ei ole dataa
+  if (localStorage.getItem("New Query") == null) { //Jos local storagessa ei ole dataa
     listArray = []; //Luodaan tyhjä array
   } else {
-    listArray = JSON.parse(localStorage.getItem("New Todo")); //Lisätään itemit local storagelta
+    listArray = JSON.parse(localStorage.getItem("New Query")); //Lisätään itemit local storagelta
   }
 
   let newListItem = "";
@@ -102,15 +98,15 @@ function listItems() {
 
 // Remove item -funktio
 function removeItem(index) {
-  listArray = JSON.parse(localStorage.getItem("New Todo"));
+  listArray = JSON.parse(localStorage.getItem("New Query"));
   listArray.splice(index, 1); //Poistetaan li
-  localStorage.setItem("New Todo", JSON.stringify(listArray));
+  localStorage.setItem("New Query", JSON.stringify(listArray));
   listItems(); //Kutsutaan listItems-funktiota
 }
 
 // Clear All -nappula, joka poistaa kaiken listalta
 removeAllButton.onclick = ()=> {
   listArray = []; //Tyhjennetään array
-  localStorage.setItem("New Todo", JSON.stringify(listArray)); //set item local storagessa
+  localStorage.setItem("New Query", JSON.stringify(listArray)); //set item local storagessa
   listItems(); //Kutsutaan listItems-funktiota
 }
