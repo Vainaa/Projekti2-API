@@ -1,1 +1,1 @@
-"# Projekti-1-Dom-Skriptaus" 
+"# Projekti 2: AJAX-sovellus REST APIa hyödyntäen " 

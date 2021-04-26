@@ -36,7 +36,7 @@ function createElements() {
 
   //List
   var list = document.createElement("UL");
-  list.className="todoList";
+  list.className="covidList";
   
   element3.appendChild(list); 
 
@@ -51,23 +51,22 @@ function createElements() {
 //Haetaan elementit
 const input = document.querySelector(".inputField input");
 const addButton = document.querySelector(".inputField button");
-const todoList = document.querySelector(".todoList");
+const covidList = document.querySelector(".covidList");
 const removeAllButton = document.querySelector(".footer button");
-
+var i = 0;
 listItems(); //Kutsutaan listItems-funktiota
 
 function getCases(value) { // Kutsutaan rajapinnalta data hakusanan perusteella
   fetch("https://api.covid19api.com/country/"+value+"/status/confirmed/live")
   .then(response => response.json())
   .then(data => numberOfCases=(data[data.length-1].Cases))
-  .catch(() => window.alert("Oops! Looks like that country can't be found!"))
+  .catch(() => window.alert("Oops! Looks like something went wrong!"))
 }
 
 function getDate(value) { // Kutsutaan rajapinnalta data hakusanan perusteella
   fetch("https://api.covid19api.com/country/"+value+"/status/confirmed/live")
   .then(response => response.json())
   .then(data => date=(data[data.length-1].Date).slice(0,-10))
-  .catch(() => window.alert("Oops! Looks like that country can't be found!"))
 }
 var numberOfCases ='';
 var date="";
@@ -76,7 +75,7 @@ addButton.onclick = ()=> { //Kun käyttäjä klikkaa Search-buttonia
   var InputValue = input.value; //Haetaan Input fieldin arvo
   getCases(InputValue); //kutsutaan getCases funktiota
   getDate(InputValue)//kutsutaan getDate funktiota
-  setTimeout(()=>{ 
+  setTimeout(()=>{ // ajastin jotta palvelin ehtii vastata pyyntöön ei välttämättä tarpeellinen mutta huomasin että parantaa toiminnallisuutta
     if (localStorage.getItem("New Todo") == null) { //Jos local storagessa ei ole dataa
       listArray = []; //Luodaan tyhjä array
     }
@@ -84,6 +83,7 @@ addButton.onclick = ()=> { //Kun käyttäjä klikkaa Search-buttonia
         var text = InputValue+": "+numberOfCases+" Confirmed cases as of "+date+".";
         listArray.push(text); //Lisätään uusi arvo arrayhin
         localStorage.setItem("New Todo", JSON.stringify(listArray)); //Itemin lisäys local storageen
+        
     } else {
       document.querySelector(".inputField input").style.borderColor = "red";
       alert("You must write something"); //Alert-viesti   
@@ -106,7 +106,7 @@ function listItems() {
     newListItem += `<li>${element}<span class="icon" onclick="removeItem(${index})"><span>\u00D7</span></span></li>`;
   });
 
-  todoList.innerHTML = newListItem; //Lisätään uusi li-tagi ul-tagin sisällä
+  covidList.innerHTML = newListItem; //Lisätään uusi li-tagi ul-tagin sisällä
   input.value = ""; //Jätetään Input field tyhjäksi, kun taski on lisätty listaan
 }
 

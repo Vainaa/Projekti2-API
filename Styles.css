@@ -54,11 +54,11 @@ body {
 .inputField button:hover, .footer button:hover { 
   background: #1295e0;
 }
-.wrapper .todoList { 
+.wrapper .covidList { 
   max-height: 100%;
   overflow-y: auto;
 }
-.todoList li {
+.covidList li {
   height: 45px;
   line-height: 45px;
   margin-bottom: 8px;
@@ -70,7 +70,7 @@ body {
   overflow: hidden;
   position: relative;
 }
-.todoList li.checked {
+.covidList li.checked {
   height: 45px;
   line-height: 45px;
   margin-bottom: 8px;
@@ -84,7 +84,7 @@ body {
   overflow: hidden;
   position: relative;
 }
-.todoList li .icon {
+.covidList li .icon {
   width: 45px;
   right: 0px;
   color: #fff;
@@ -94,7 +94,7 @@ body {
   cursor: pointer;
   position: absolute;
 }
-.todoList li .icon:hover {
+.covidList li .icon:hover {
   background: #f11212;
 }
 .wrapper .footer {
