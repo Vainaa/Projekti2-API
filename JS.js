@@ -62,41 +62,43 @@ const input = document.querySelector(".inputField input");
 const addButton = document.querySelector(".inputField button");
 const todoList = document.querySelector(".todoList");
 const removeAllButton = document.querySelector(".footer button");
-var cases ='';
-var size = "";
+
 listItems(); //Kutsutaan listItems-funktiota
 
 function loadDoc(value) {
   fetch("https://api.covid19api.com/country/"+value+"/status/confirmed/live")
   .then(response => response.json())
-  .then(data => size = (data.length))
-  .then(console.log(size))
-  .then(cases=data[size].Cases);
+  .then(data => numberOfCases=(data[data.length-1].Cases))
 }
 
-
+var numberOfCases ='';
 
 
 addButton.onclick = ()=> { //Kun käyttäjä klikkaa Add-buttonia
+  var InputValue = input.value; //Haetaan Input fieldin arvo
+  loadDoc(InputValue); 
+  setTimeout(()=>{
+    
+    
+    if (localStorage.getItem("New Todo") == null) { //Jos local storagessa ei ole dataa
+      listArray = []; //Luodaan tyhjä array
+    }
+    if (InputValue.trim() != 0) { //Tarkistetaan kenttävalidaatio
+        var text = InputValue+": "+numberOfCases+" Confirmed cases.";
+        listArray.push(text); //Lisätään uusi arvo arrayhin
+        localStorage.setItem("New Todo", JSON.stringify(listArray)); //Itemin lisäys local storageen
+      
+        
+        
+    } else {
+      document.querySelector(".inputField input").style.borderColor = "red";
+      alert("You must write something"); //Alert-viesti   
+    }
+    
+    listItems(); //Kutsutaan listItems-funktiota
+  },100
+  )
   
-  let InputValue = input.value; //Haetaan Input fieldin arvo
-  
-  if (localStorage.getItem("New Todo") == null) { //Jos local storagessa ei ole dataa
-    listArray = []; //Luodaan tyhjä array
-  } else {
-    listArray = JSON.parse(localStorage.getItem("New Todo"));  //Lisätään itemit local storagelta
-  }
-  if (InputValue.trim() != 0) { //Tarkistetaan kenttävalidaatio   
-      var text = InputValue+": "+cases+" Confirmed cases.";
-      listArray.push(text); //Lisätään uusi arvo arrayhin
-      localStorage.setItem("New Todo", JSON.stringify(listArray)); //Itemin lisäys local storageen
-  } else {
-    document.querySelector(".inputField input").style.borderColor = "red";
-    alert("You must write something"); //Alert-viesti   
-  }
-
-  listItems(); //Kutsutaan listItems-funktiota
-  loadDoc(InputValue);
 }
 
 function listItems() {
@@ -116,7 +118,7 @@ function listItems() {
   });
 
   todoList.innerHTML = newListItem; //Lisätään uusi li-tagi ul-tagin sisällä
-  //input.value = ""; //Jätetään Input field tyhjäksi, kun taski on lisätty listaan
+  input.value = ""; //Jätetään Input field tyhjäksi, kun taski on lisätty listaan
 }
 
 // Remove item -funktio
