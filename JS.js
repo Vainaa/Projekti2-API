@@ -53,36 +53,18 @@ const input = document.querySelector(".inputField input");
 const addButton = document.querySelector(".inputField button");
 const covidList = document.querySelector(".covidList");
 const removeAllButton = document.querySelector(".footer button");
-var i = 0;
+var text;
 listItems(); //Kutsutaan listItems-funktiota
 
-function getCases(value) { // Kutsutaan rajapinnalta data hakusanan perusteella
-  fetch("https://api.covid19api.com/country/"+value+"/status/confirmed/live")
+async function getCases(value) { // Haetaan rajapinnalta data hakusanan perusteella
+  await fetch("https://api.covid19api.com/country/"+value+"/status/confirmed/live")
   .then(response => response.json())
-  .then(data => numberOfCases=(data[data.length-1].Cases))
-  .catch(() => window.alert("Oops! Looks like something went wrong!"))
-}
-
-function getDate(value) { // Kutsutaan rajapinnalta data hakusanan perusteella
-  fetch("https://api.covid19api.com/country/"+value+"/status/confirmed/live")
-  .then(response => response.json())
-  .then(data => date=(data[data.length-1].Date).slice(0,-10))
-}
-var numberOfCases ='';
-var date="";
-
-addButton.onclick = ()=> { //Kun käyttäjä klikkaa Search-buttonia
-  var InputValue = input.value; //Haetaan Input fieldin arvo
-
-  getCases(InputValue); //kutsutaan getCases funktiota
-  getDate(InputValue)//kutsutaan getDate funktiota
-  
-  setTimeout(()=>{ // ajastin jotta palvelin ehtii vastata pyyntöön ei välttämättä tarpeellinen mutta huomasin että parantaa toiminnallisuutta
+  .then(data =>{
     if (localStorage.getItem("New Todo") == null) { //Jos local storagessa ei ole dataa
       listArray = []; //Luodaan tyhjä array
     }
-    if (InputValue.trim() != 0) { //Tarkistetaan kenttävalidaatio
-        var text = InputValue+": "+numberOfCases+" Confirmed cases as of "+date+".";
+    if (value.trim() != 0) { //Tarkistetaan kenttävalidaatio
+        const text = value+": "+(data[data.length-1].Cases)+" Confirmed cases as of "+(data[data.length-1].Date).slice(0,-10)+".";
         listArray.push(text); //Lisätään uusi arvo arrayhin
         localStorage.setItem("New Todo", JSON.stringify(listArray)); //Itemin lisäys local storageen
         
@@ -91,8 +73,14 @@ addButton.onclick = ()=> { //Kun käyttäjä klikkaa Search-buttonia
       alert("You must write something"); //Alert-viesti   
     } 
     listItems(); //Kutsutaan listItems-funktiota
-  },100
-  )
+  })
+  .catch(() => window.alert("Oops! Looks like something went wrong!"))
+}
+
+addButton.onclick = ()=> { //Kun käyttäjä klikkaa Search-buttonia
+  var InputValue = input.value; //Haetaan Input fieldin arvo
+  getCases(InputValue);
+ //kutsutaan getCases funktiota
 }
 
 function listItems() {
