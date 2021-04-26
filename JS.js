@@ -63,7 +63,7 @@ async function getCases(value) { // Haetaan rajapinnalta data hakusanan perustee
       listArray = []; //Luodaan tyhjä array
     }
     if (value.trim() != 0) { //Tarkistetaan kenttävalidaatio  
-        listArray.push(value+": "+(data[data.length-1].Cases)+" Confirmed cases as of "+(data[data.length-1].Date).slice(0,-10)+"."); //Lisätään uusi arvo arrayhin
+        listArray.push((data[data.length-1].Country)+": "+(data[data.length-1].Cases)+" "+(data[data.length-1].Status) +" cases as of "+(data[data.length-1].Date).slice(0,-10)+"."); //Lisätään uusi arvo arrayhin
         localStorage.setItem("New Query", JSON.stringify(listArray)); //Itemin lisäys local storageen
     } else {
       document.querySelector(".inputField input").style.borderColor = "red";
