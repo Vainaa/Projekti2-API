@@ -73,8 +73,10 @@ var date="";
 
 addButton.onclick = ()=> { //Kun käyttäjä klikkaa Search-buttonia
   var InputValue = input.value; //Haetaan Input fieldin arvo
+
   getCases(InputValue); //kutsutaan getCases funktiota
   getDate(InputValue)//kutsutaan getDate funktiota
+  
   setTimeout(()=>{ // ajastin jotta palvelin ehtii vastata pyyntöön ei välttämättä tarpeellinen mutta huomasin että parantaa toiminnallisuutta
     if (localStorage.getItem("New Todo") == null) { //Jos local storagessa ei ole dataa
       listArray = []; //Luodaan tyhjä array
