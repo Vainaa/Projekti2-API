@@ -65,18 +65,18 @@ async function getCases(value) { // Haetaan rajapinnalta data hakusanan perustee
     if (value.trim() != 0) { //Tarkistetaan kenttävalidaatio  
         listArray.push((data[data.length-1].Country)+": "+(data[data.length-1].Cases)+" "+(data[data.length-1].Status) +" cases as of "+(data[data.length-1].Date).slice(0,-10)+"."); //Lisätään uusi arvo arrayhin
         localStorage.setItem("New Query", JSON.stringify(listArray)); //Itemin lisäys local storageen
-    } else {
+    }
+    else {
       document.querySelector(".inputField input").style.borderColor = "red";
       alert("You must write something"); //Alert-viesti   
     } 
     listItems(); //Kutsutaan listItems-funktiota
   })
-  .catch(() => window.alert("Looks like something went wrong! \n\nCheck if the name of the country is spelled right"))
+  .catch(() => window.alert("Looks like something went wrong!\n\nCheck if the name of the country is spelled right"))
 }
 
 addButton.onclick = ()=> { //Kun käyttäjä klikkaa Search-buttonia
-  var InputValue = input.value; //Haetaan Input fieldin arvo
-  getCases(InputValue);//kutsutaan getCases funktiota
+  getCases(input.value);//kutsutaan getCases funktiota
 }
 
 function listItems() {
